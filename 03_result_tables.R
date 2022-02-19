@@ -14,7 +14,7 @@ method_names <- c("IRTKE EG", "LLKE EG", "IRTKE CE", "LLKE CE", "IRTKE PSE", "LL
 mat_rows <- length(harder_y) * length(diff_pop) * length(method_names)
 res_mat <- data.frame(matrix("", nrow = mat_rows, ncol = 9))
 res_mat[, 4:9] <- sapply(res_mat[, 4:9], as.numeric)
-rowi <- 1:9
+rowi <- 1:6
 # loop through scenarios
 for (item_scen_A in 1:length(bin_items_A)) {
   for (item_scen in 1:length(bin_items)) {
@@ -44,7 +44,7 @@ for (item_scen_A in 1:length(bin_items_A)) {
         res_mat[rowi, 8] <- res$spline$global$RMSE_global
         res_mat[rowi, 9] <- res$spline$global$RMSE_wglobal
 
-        rowi <- rowi + 9
+        rowi <- rowi + 6
       }
     }
   }
@@ -52,7 +52,6 @@ for (item_scen_A in 1:length(bin_items_A)) {
 
 library(xtable)
 print(xtable(res_mat), include.rownames = FALSE, include.colnames = FALSE)
-print(xtable(res_mat[!grepl("IRTKE2", res_mat$X1), ]), include.rownames = FALSE, include.colnames = FALSE)
 
 
 # IRT ---------------------------------------------------------------------

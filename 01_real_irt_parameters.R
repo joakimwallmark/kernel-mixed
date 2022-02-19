@@ -90,4 +90,4 @@ no_bin_poly <- list(
 # vector indicating whether harder Y test is used in given scenario
 easier_y <- c(F, F, T, T, F, F, T, T)
 
-save(item_pars, no_bin_poly, easier_y, file = "sim_real_item_parameters.RData")
+save(item_pars, no_bin_poly, easier_y, file = "sim_real_item_parameters2.RData")

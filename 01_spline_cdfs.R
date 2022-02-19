@@ -60,8 +60,8 @@ easy_a_den <- ssden(~easy_a_tot, domain = data.frame(easy_a_tot = c(-0.5, 40.5))
 x_list <- list(x = x_den)
 y_list <- list(y = x_den, easy_y = easy_y_den)
 a_list <- list(a = a_den, easy_a = easy_a_den)
-# save(x_list, y_list, a_list, file = "fitted_splines.RData")
-# load(file = "fitted_splines.RData")
+# save(x_list, y_list, a_list, file = "fitted_splines2.RData")
+# load(file = "fitted_splines2.RData")
 
 # Weights for data generation ---------------------------------------------
 set.seed(24)
@@ -92,7 +92,7 @@ opt_w_y <- opt_w_x
 opt_w_a <- optimize_fun(init_wa, a_probs, totals_a)
 opt_w_ey <- optimize_fun(init_wxy, ey_probs, totals_ey)
 opt_w_ea <- optimize_fun(init_wa, ea_probs, totals_ea)
-# save(opt_w_x, opt_w_y, opt_w_ey, opt_w_a, opt_w_ea, file = "weights.RData")
+# save(opt_w_x, opt_w_y, opt_w_ey, opt_w_a, opt_w_ea, file = "weights2.RData")
 
 # compare with real to decide if weights are good
 sort(colMeans(get_item_resp_from_total(totals_x, opt_w_x)))-sort(x_probs)

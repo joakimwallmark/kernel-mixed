@@ -5,27 +5,15 @@ library(ggplot2)
 library(ggpubr)
 library(gss)
 
-# Note that the data files (NEATv13B2469.sav) cannot be shared for copyright reasons.
-# Fil
-# model scores by X score -------------------------------------------------
-data1 <- read_sav("data/NEATv13B2469.sav")
-data2 <- read_sav("data/NEATv14A2859.sav")
-data1 <- as.data.frame(data1)
-data2 <- as.data.frame(data2)
-dim(data1)
-dim(data2)
-anchor_13 <- data1[, grep("UTP113BG", names(data1))] # verbal anchor items, 13B
-anchor_14 <- data2[, grep("UTP114AG", names(data2))] # verbal anchor items, 13B
-y_13_1 <- data1[, grep("VE113BG", names(data1))] # verbal 1 items, 13B
-y_13_2 <- data1[, grep("VE213BG", names(data1))] # verbal 2 items, 13B
-x_14_1 <- data2[, grep("VE114AG", names(data2))] # verbal 1 items, 14A
-x_14_2 <- data2[, grep("VE214AG", names(data2))] # verbal 2 items, 14A
-X_binform <- cbind(x_14_1, x_14_2)
-Y_binform <- cbind(y_13_1, y_13_2)
-XA_binform <- anchor_14
+# load data and fit splines
+load("data/mock_data_dich.RData")
+x_binform <- data.frame(x_14[, 1:80])
+y_binform <- data.frame(y_13[, 1:80])
+anchor_14 <- data.frame(x_14[, 81:120])
+anchor_13 <- data.frame(y_13[, 81:120])
 
 # Get 75% easiest items from Y and A13 forms
-all_y_tests <- cbind(y_13_1, y_13_2, anchor_13)
+all_y_tests <- cbind(y_binform, anchor_13)
 easier_y <- sort(colMeans(all_y_tests))[31:120]
 set.seed(28) # Easier Y
 from_y_new <- sample(1:length(easier_y), size = 80) # 80 random of the easier ones from each form to new y
@@ -36,8 +24,8 @@ from_a_new <- sample(1:length(easier_y), size = 40) # 40 random of the easier on
 new_easier_a <- all_y_tests[names(easier_y[from_a_new])]
 easy_a_tot <- rowSums(new_easier_a)
 
-x_tot <- rowSums(X_binform)
-a_tot <- rowSums(XA_binform)
+x_tot <- rowSums(x_binform)
+a_tot <- rowSums(anchor_14)
 summary(x_tot)
 summary(easy_y_tot)
 summary(a_tot)
@@ -77,7 +65,7 @@ hist(totals_a, breaks = 50)
 hist(totals_ea, breaks = 50)
 
 # true probabilities
-x_probs <- unname(colMeans(X_binform))
+x_probs <- unname(colMeans(x_binform))
 ey_probs <- unname(colMeans(new_easier_y))
 a_probs <- unname(colMeans(anchor_14))
 ea_probs <- unname(colMeans(new_easier_a))

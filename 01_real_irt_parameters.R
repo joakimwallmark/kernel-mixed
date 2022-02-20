@@ -1,21 +1,16 @@
 library(mirt)
 
 # actual simulations ------------------------------------------------------
-load("data/real-NEAT.RData")
+load("data/mock_data.RData")
 # get IRT coefficients from real data
 real_x_m <- mirt(data = X_14, model = 1, itemtype = "gpcm", SE = T)
 real_y_m <- mirt(data = Y_13, model = 1, itemtype = "gpcm", SE = T)
+
 x_irt_coefs <- coef(real_x_m, IRTpars = T, simplify = T)$items
 y_irt_coefs <- coef(real_y_m, IRTpars = T, simplify = T)$items
-# split dich and poly item
-dich_ix <- apply(x_irt_coefs, MARGIN = 1, function(x) {sum(!is.na(x))==2 })
-dich_iy <- apply(y_irt_coefs, MARGIN = 1, function(x) {sum(!is.na(x))==2 })
-x_dich_coefs <- x_irt_coefs[dich_ix, ]
-x_poly_coefs <- x_irt_coefs[!dich_ix, ]
-y_dich_coefs <- y_irt_coefs[dich_iy, ]
-y_poly_coefs <- y_irt_coefs[!dich_iy, ]
 
-# one scenario with original 2014 data for X, Y and A
+# One scenario with original 2014 data for X, Y and A
+# Last 30 items are anchor items
 x_coef <- y_coef <- x_irt_coefs[1:60, ]
 a_coef <- x_irt_coefs[61:90, ]
 

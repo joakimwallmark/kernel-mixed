@@ -2,7 +2,7 @@ library(gridExtra)
 library(ggplot2)
 library(ggpubr)
 
-xScorePlot <- function(df, ylab, y_min = NA, y_max = NA) {
+equating_plot <- function(df, ylab, y_min = NA, y_max = NA) {
   res_plot <- ggplot(df, aes(x = score, y = value, linetype = method)) +
     geom_line() +
     theme_bw() +
@@ -93,12 +93,12 @@ for (item_scen_A in 1:length(bin_items_A)) {
         y_max <- max(bias_df$value) + 0.05 * max(bias_df$value)
         y_min <- min(bias_df$value) + 0.05 * min(bias_df$value)
 
-        pbiasirtke <- xScorePlot(bias_df[grepl("IRTKE ", bias_df$method), ], y_min = y_min, y_max = y_max, expression(widehat(Bias)))
-        pbiasllke <- xScorePlot(bias_df[grepl("LLKE", bias_df$method), ], y_min = y_min, y_max = y_max, expression(widehat(Bias)))
+        pbiasirtke <- equating_plot(bias_df[grepl("IRTKE ", bias_df$method), ], y_min = y_min, y_max = y_max, expression(widehat(Bias)))
+        pbiasllke <- equating_plot(bias_df[grepl("LLKE", bias_df$method), ], y_min = y_min, y_max = y_max, expression(widehat(Bias)))
         
         y_max <- max(see_df$value) + 0.05 * max(see_df$value)
-        pseeirtke <- xScorePlot(see_df[grepl("IRTKE ", see_df$method), ], y_min = 0, y_max = y_max, expression(widehat(SEE)))
-        pseellke <- xScorePlot(see_df[grepl("LLKE", see_df$method), ], y_min = 0, y_max = y_max, expression(widehat(SEE)))
+        pseeirtke <- equating_plot(see_df[grepl("IRTKE ", see_df$method), ], y_min = 0, y_max = y_max, expression(widehat(SEE)))
+        pseellke <- equating_plot(see_df[grepl("LLKE", see_df$method), ], y_min = 0, y_max = y_max, expression(widehat(SEE)))
         
         scenario <- paste(no_bin, "p", no_poly, " bA", no_bin_A, "pA", no_poly_A, " diffy ", test_scen, " diffpop ", diff_pop[pop_scen])
         biasplots[[scenario]] <- list(biasirtke = pbiasirtke, biasllke = pbiasllke)
@@ -247,12 +247,12 @@ for (item_scen_A in 1:length(bin_items_A)) {
         y_max <- max(bias_df$value) + 0.05 * max(bias_df$value)
         y_min <- min(bias_df$value) + 0.05 * min(bias_df$value)
 
-        pbiasirtke <- xScorePlot(bias_df[!grepl("LLKE", bias_df$method), ], y_min = y_min, y_max = y_max, expression(widehat(Bias)))
-        pbiasllke <- xScorePlot(bias_df[!grepl("IRTKE", bias_df$method), ], y_min = y_min, y_max = y_max, expression(widehat(Bias)))
+        pbiasirtke <- equating_plot(bias_df[!grepl("LLKE", bias_df$method), ], y_min = y_min, y_max = y_max, expression(widehat(Bias)))
+        pbiasllke <- equating_plot(bias_df[!grepl("IRTKE", bias_df$method), ], y_min = y_min, y_max = y_max, expression(widehat(Bias)))
 
         y_max <- max(SEE_df$value) + 0.05 * max(SEE_df$value)
-        pseeirtke <- xScorePlot(SEE_df[!grepl("LLKE", SEE_df$method), ], y_min = 0, y_max = y_max, expression(widehat(SEE)))
-        pseellke <- xScorePlot(SEE_df[!grepl("IRTKE", SEE_df$method), ], y_min = 0, y_max = y_max, expression(widehat(SEE)))
+        pseeirtke <- equating_plot(SEE_df[!grepl("LLKE", SEE_df$method), ], y_min = 0, y_max = y_max, expression(widehat(SEE)))
+        pseellke <- equating_plot(SEE_df[!grepl("IRTKE", SEE_df$method), ], y_min = 0, y_max = y_max, expression(widehat(SEE)))
 
         scenario <- paste(no_bin, "p", no_poly, " bA", no_bin_A, "pA", no_poly_A, " diffy ", test_scen, " diffpop ", diff_pop[pop_scen])
         biasplots[[scenario]] <- list(biasirtke = pbiasirtke, biasllke = pbiasllke)

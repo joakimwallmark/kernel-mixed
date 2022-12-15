@@ -3,18 +3,24 @@ library(mirt)
 # actual simulations ------------------------------------------------------
 load("data/mock_data.RData")
 # get IRT coefficients from real data
-real_x_m <- mirt(data = X_14, model = 1, itemtype = "gpcm", SE = T)
-real_y_m <- mirt(data = Y_13, model = 1, itemtype = "gpcm", SE = T)
+real_x_m <- mirt(data = x_14, model = 1, itemtype = "gpcm", SE = T)
+real_y_m <- mirt(data = y_13, model = 1, itemtype = "gpcm", SE = T)
 
 x_irt_coefs <- coef(real_x_m, IRTpars = T, simplify = T)$items
 y_irt_coefs <- coef(real_y_m, IRTpars = T, simplify = T)$items
 
+# split dich and poly item c(1:10, 15:26, 28:40)
+dich_ind <- apply(x_irt_coefs, 1, function(x) sum(is.na(x)))==4
+x_dich_coefs <- x_irt_coefs[dich_ind, ]
+x_poly_coefs <- x_irt_coefs[!dich_ind, ]
+y_dich_coefs <- y_irt_coefs[dich_ind, ]
+y_poly_coefs <- y_irt_coefs[!dich_ind, ]
 # One scenario with original 2014 data for X, Y and A
 # Last 30 items are anchor items
 x_coef <- y_coef <- x_irt_coefs[1:60, ]
 a_coef <- x_irt_coefs[61:90, ]
 
-# Add polytomous from Y to make more polytomous ---------------------------
+# Add polytomous from Y to make more polytomous, maintaining same total score ---------------------------
 # 30 points, 15 on anchor
 sum(sapply(apply(y_poly_coefs[1:10, 2:ncol(y_poly_coefs[1:10, ])], MARGIN = 1, na.omit), length))
 sum(sapply(apply(y_poly_coefs[11:15, 2:ncol(y_poly_coefs[11:15, ])], MARGIN = 1, na.omit), length))

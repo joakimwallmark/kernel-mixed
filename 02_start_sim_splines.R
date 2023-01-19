@@ -14,7 +14,6 @@ options(scipen = 999)
 
 load(file = "fitted_splines.RData")
 load(file = "weights.RData") # weights for generating item scores from test scores
-# n <- 1000
 n <- 1500
 r <- 1000
 bin_items <- c(50, 35, 20)

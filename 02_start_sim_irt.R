@@ -10,8 +10,6 @@ source("functions/irt_probs.R")
 options(scipen = 999)
 
 load("sim_real_item_parameters.RData")
-# uncomment if you generated new IRT parameters using 01_real_irt_parameters.R
-# load("sim_real_item_parameters2.RData")
 
 # functions for generating theta scores
 theta_funs <- list(

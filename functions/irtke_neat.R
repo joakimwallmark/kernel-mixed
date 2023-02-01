@@ -49,8 +49,7 @@ irtke_neat <- function(data, i, arg_list) {
   if (method == "CE") {
     result <- c(irtke@equating$eqYx, irtke@equating$SEEYx, irtke@PRE$PREAx, irtke@PRE$PREYa)
     names(result) <- res_names
-  }
-  else {
+  } else {
     result <- c(irtke@equating$eqYx, irtke@equating$SEEYx, irtke@PRE$PREYx)
     names(result) <- res_names
   }

@@ -11,10 +11,9 @@ irt_true_w <- function(x_pars, y_pars, thetas, thetasdens) {
     if (class(x_pars_b) != "vector") {
       x_pars_b <- as.list(x_pars_b)
       y_pars_b <- as.list(y_pars_b)
-    }
-    else {
-      x_pars_b <- split(t(x_pars_b), 1:ncol(x_pars_b))
-      y_pars_b <- split(t(y_pars_b), 1:ncol(y_pars_b))
+    } else {
+      x_pars_b <- split(t(x_pars_b), seq_along(x_pars_b))
+      y_pars_b <- split(t(y_pars_b), seq_along(y_pars_b))
     }
   }
   cat_x <- sapply(x_pars_b, length) + 1

@@ -3,14 +3,14 @@ library(mirt)
 # actual simulations ------------------------------------------------------
 load("data/mock_data.RData")
 # get IRT coefficients from real data
-real_x_m <- mirt(data = x_14, model = 1, itemtype = "gpcm", SE = T)
-real_y_m <- mirt(data = y_13, model = 1, itemtype = "gpcm", SE = T)
+real_x_m <- mirt(data = x_14, model = 1, itemtype = "gpcm", SE = TRUE)
+real_y_m <- mirt(data = y_13, model = 1, itemtype = "gpcm", SE = TRUE)
 
-x_irt_coefs <- coef(real_x_m, IRTpars = T, simplify = T)$items
-y_irt_coefs <- coef(real_y_m, IRTpars = T, simplify = T)$items
+x_irt_coefs <- coef(real_x_m, IRTpars = TRUE, simplify = TRUE)$items
+y_irt_coefs <- coef(real_y_m, IRTpars = TRUE, simplify = TRUE)$items
 
 # split dich and poly item c(1:10, 15:26, 28:40)
-dich_ind <- apply(x_irt_coefs, 1, function(x) sum(is.na(x)))==4
+dich_ind <- apply(x_irt_coefs, 1, function(x) sum(is.na(x))) == 4
 x_dich_coefs <- x_irt_coefs[dich_ind, ]
 x_poly_coefs <- x_irt_coefs[!dich_ind, ]
 y_dich_coefs <- y_irt_coefs[dich_ind, ]
@@ -89,6 +89,6 @@ no_bin_poly <- list(
   c(20, 20, 10, 10)
 )
 # vector indicating whether harder Y test is used in given scenario
-easier_y <- c(F, F, T, T, F, F, T, T)
+easier_y <- c(FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE)
 
 save(item_pars, no_bin_poly, easier_y, file = "sim_real_item_parameters2.RData")

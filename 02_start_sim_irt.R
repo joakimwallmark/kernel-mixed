@@ -14,12 +14,20 @@ load("sim_real_item_parameters.RData")
 # functions for generating theta scores
 theta_funs <- list(
   list(
-    P = function(n) { rnorm(n) },
-    Q = function(n) { rnorm(n) }
+    P = function(n) {
+      rnorm(n)
+    },
+    Q = function(n) {
+      rnorm(n)
+    }
   ),
   list(
-    P = function(n) { rnorm(n) },
-    Q = function(n) { rnorm(n, mean = 0.5, sd = 1.2) }
+    P = function(n) {
+      rnorm(n)
+    },
+    Q = function(n) {
+      rnorm(n, mean = 0.5, sd = 1.2)
+    }
   )
 )
 # scenarios with population thetas with corresponding densities for true IRT computation
@@ -42,10 +50,10 @@ theta_den <- list(
     P = dnorm(thetas[[2]]$P),
     Q = dnorm(thetas[[2]]$Q, mean = 0.5, sd = 1.2)
   )
-) 
+)
 
 # vector indicating whether pop differ in given scenario
-diff_pop <- c(F, T)
+diff_pop <- c(FALSE, TRUE)
 
 true_eq_names <- c("KEtrue", "EEtrue")
 method_names <- c("IRTKE", "KE", "IRTKECE", "KECE", "IRTKEPSE", "KEPSE")
@@ -55,9 +63,9 @@ r <- 1000
 
 # loop through scenarios
 set.seed(12)
-start.time <- Sys.time()
-for (pop_scen in 1:length(thetas)) {
-  for (item_scen in 1:length(item_pars)) {
+start_time <- Sys.time()
+for (pop_scen in seq_along(thetas)) {
+  for (item_scen in seq_along(item_pars)) {
     no_bin <- no_bin_poly[[item_scen]][1]
     no_poly <- no_bin_poly[[item_scen]][2]
     no_bin_a <- no_bin_poly[[item_scen]][3]
@@ -85,15 +93,15 @@ for (pop_scen in 1:length(thetas)) {
     max_score_xy <- sum(cat_x - 1)
     max_score_a <- sum(cat_a - 1)
     simres <- sim_parallel(
-      iter = r, data_gen_FUN = generate_data_irt,
-      data_gen_FUN_args = list(n, n,
+      iter = r, data_gen_fun = generate_data_irt,
+      data_gen_fun_args = list(n, n,
         theta_funs = theta_funs[[pop_scen]],
         x_pars = x_pars, y_pars = y_pars, a_pars = a_pars,
         names = names, names_a = names_a,
         filename = filename
       ),
-      method_FUNs = list(irtke_eg, ke_eg, irtke_neat, ke_neat, irtke_neat, ke_neat),
-      method_FUNs_args = list(
+      method_funs = list(irtke_eg, ke_eg, irtke_neat, ke_neat, irtke_neat, ke_neat),
+      method_funs_args = list(
         list(max_score_xy, cat_x = cat_x, cat_y = cat_y),
         max_score_xy,
         list("CE", max_score_xy, max_score_a, cat_x = cat_x, cat_y = cat_y, cat_a = cat_a),
@@ -106,10 +114,10 @@ for (pop_scen in 1:length(thetas)) {
       res_filename = filename_iter
     )
 
-    res <- accuracyIndices(simres, true[-3], true$W, true_eq_names, method_names)
+    res <- accuracy_indices(simres, true[-3], true$W, true_eq_names, method_names)
     save(res, file = filename_err)
   }
 }
-time <- Sys.time() - start.time
+time <- Sys.time() - start_time
 save(time, file = paste("data/irt/time irt R", r, ".RData", sep = ""))
 print(time)

@@ -16,11 +16,11 @@ anchor_13 <- data.frame(y_13[, 81:120])
 all_y_tests <- cbind(y_binform, anchor_13)
 easier_y <- sort(colMeans(all_y_tests))[31:120]
 set.seed(28) # Easier Y
-from_y_new <- sample(1:length(easier_y), size = 80) # 80 random of the easier ones from each form to new y
+from_y_new <- sample(seq_along(easier_y), size = 80) # 80 random of the easier ones from each form to new y
 new_easier_y <- all_y_tests[names(easier_y[from_y_new])]
 easy_y_tot <- rowSums(new_easier_y)
 set.seed(231) # Easier A
-from_a_new <- sample(1:length(easier_y), size = 40) # 40 random of the easier ones from each form to new y
+from_a_new <- sample(seq_along(easier_y), size = 40) # 40 random of the easier ones from each form to new y
 new_easier_a <- all_y_tests[names(easier_y[from_a_new])]
 easy_a_tot <- rowSums(new_easier_a)
 
@@ -83,10 +83,10 @@ opt_w_ea <- optimize_fun(init_wa, ea_probs, totals_ea)
 # save(opt_w_x, opt_w_y, opt_w_ey, opt_w_a, opt_w_ea, file = "weights2.RData")
 
 # compare with real to decide if weights are good
-sort(colMeans(get_item_resp_from_total(totals_x, opt_w_x)))-sort(x_probs)
-sort(colMeans(get_item_resp_from_total(totals_ey, opt_w_ey)))-sort(ey_probs)
-sort(colMeans(get_item_resp_from_total(totals_a, opt_w_a)))-sort(a_probs)
-sort(colMeans(get_item_resp_from_total(totals_ea, opt_w_ea)))-sort(ea_probs)
+sort(colMeans(get_item_resp_from_total(totals_x, opt_w_x))) - sort(x_probs)
+sort(colMeans(get_item_resp_from_total(totals_ey, opt_w_ey))) - sort(ey_probs)
+sort(colMeans(get_item_resp_from_total(totals_a, opt_w_a))) - sort(a_probs)
+sort(colMeans(get_item_resp_from_total(totals_ea, opt_w_ea))) - sort(ea_probs)
 
 # For plotting only ------------------------------------------------------------
 df_x <- data.frame(score = x_tot)
@@ -97,10 +97,18 @@ x <- seq(-0.5, 80.5, 0.01)
 a <- seq(-0.5, 40.5, 0.01)
 xy_max <- 0.031
 a_max <- 0.063
-df_2x <- data.frame(x = x, y = sapply(x, function(x) { dssden(x_den, x) } ))
-df_2e_y <- data.frame(x = x, y = sapply(x, function(x) { dssden(easy_y_den, x) } ))
-df_2a <- data.frame(x = a, y = sapply(a, function(x) { dssden(a_den, x) } ))
-df_2e_a <- data.frame(x = a, y = sapply(a, function(x) { dssden(easy_a_den, x) } ))
+df_2x <- data.frame(x = x, y = sapply(x, function(x) {
+  dssden(x_den, x)
+}))
+df_2e_y <- data.frame(x = x, y = sapply(x, function(x) {
+  dssden(easy_y_den, x)
+}))
+df_2a <- data.frame(x = a, y = sapply(a, function(x) {
+  dssden(a_den, x)
+}))
+df_2e_a <- data.frame(x = a, y = sapply(a, function(x) {
+  dssden(easy_a_den, x)
+}))
 
 p1 <- ggplot(df_x, aes(x = score)) +
   geom_histogram(aes(y = ..density..), colour = "black", fill = "white", bins = 14) +
@@ -109,8 +117,10 @@ p1 <- ggplot(df_x, aes(x = score)) +
   xlab("score") +
   labs(title = "X/Y") +
   theme(plot.title = element_text(hjust = 0.5)) +
-  scale_x_continuous(limits = c(min(x), max(x)),
-                     expand = c(0, 0)) +
+  scale_x_continuous(
+    limits = c(min(x), max(x)),
+    expand = c(0, 0)
+  ) +
   scale_y_continuous(limits = c(0, xy_max), expand = c(0, 0, 0.05, 0))
 p2 <- ggplot(df_e_y, aes(x = score)) +
   geom_histogram(aes(y = ..density..), colour = "black", fill = "white", bins = 14) +
@@ -119,8 +129,10 @@ p2 <- ggplot(df_e_y, aes(x = score)) +
   xlab("score") +
   labs(title = "Less difficult Y") +
   theme(plot.title = element_text(hjust = 0.5)) +
-  scale_x_continuous(limits = c(min(x), max(x)),
-                     expand = c(0, 0)) +
+  scale_x_continuous(
+    limits = c(min(x), max(x)),
+    expand = c(0, 0)
+  ) +
   scale_y_continuous(limits = c(0, xy_max), expand = c(0, 0, 0.05, 0))
 p3 <- ggplot(df_a, aes(x = score)) +
   geom_histogram(aes(y = ..density..), colour = "black", fill = "white", bins = 14) +
@@ -129,8 +141,10 @@ p3 <- ggplot(df_a, aes(x = score)) +
   xlab("score") +
   labs(title = "A") +
   theme(plot.title = element_text(hjust = 0.5)) +
-  scale_x_continuous(limits = c(min(a), max(a)),
-                     expand = c(0, 0)) +
+  scale_x_continuous(
+    limits = c(min(a), max(a)),
+    expand = c(0, 0)
+  ) +
   scale_y_continuous(limits = c(0, a_max), expand = c(0, 0, 0.05, 0))
 p4 <- ggplot(df_e_a, aes(x = score)) +
   geom_histogram(aes(y = ..density..), colour = "black", fill = "white", bins = 14) +
@@ -139,10 +153,13 @@ p4 <- ggplot(df_e_a, aes(x = score)) +
   xlab("score") +
   labs(title = "More able group A") +
   theme(plot.title = element_text(hjust = 0.5)) +
-  scale_x_continuous(limits = c(min(a), max(a)),
-                     expand = c(0, 0)) +
+  scale_x_continuous(
+    limits = c(min(a), max(a)),
+    expand = c(0, 0)
+  ) +
   scale_y_continuous(limits = c(0, a_max), expand = c(0, 0, 0.05, 0))
 
-ggarrange(p1, p2, p3, p4, ncol = 2, nrow = 2, 
-          labels = c("a)", "b)", "c)", "d)"), hjust = -1.2)
-
+ggarrange(p1, p2, p3, p4,
+  ncol = 2, nrow = 2,
+  labels = c("a)", "b)", "c)", "d)"), hjust = -1.2
+)

@@ -16,7 +16,6 @@ binprob <- function(a, b, c, qpoints) {
 # each list element corresponds to one item and is a matrix with col=theta and row = item category
 polyprob <- function(a, b, cats, model, qpoints) {
   JX <- length(cats)
-  kX <- sum(cats) - JX
   probs <- vector("list", JX)
   if (model == "GPCM") {
     for (i in 1:JX) {

@@ -93,21 +93,26 @@ for (pop_scen in seq_along(thetas)) {
     max_score_xy <- sum(cat_x - 1)
     max_score_a <- sum(cat_a - 1)
     simres <- sim_parallel(
-      iter = r, data_gen_fun = generate_data_irt,
-      data_gen_fun_args = list(n, n,
-        theta_funs = theta_funs[[pop_scen]],
-        x_pars = x_pars, y_pars = y_pars, a_pars = a_pars,
-        names = names, names_a = names_a,
-        filename = filename
-      ),
+      iter = r, 
+      data_gen_fun = generate_data_irt, 
+      data_gen_fun_args = list(
+         n, 
+         n,
+         theta_funs = theta_funs[[pop_scen]],
+         x_pars = x_pars, 
+         y_pars = y_pars, 
+         a_pars = a_pars,
+         names = names, names_a = names_a,
+         filename = filename
+       ), 
       method_funs = list(irtke_eg, ke_eg, irtke_neat, ke_neat, irtke_neat, ke_neat),
-      method_funs_args = list(
-        list(max_score_xy, cat_x = cat_x, cat_y = cat_y),
-        max_score_xy,
-        list("CE", max_score_xy, max_score_a, cat_x = cat_x, cat_y = cat_y, cat_a = cat_a),
-        list("CE", max_score_xy, max_score_a),
-        list("PSE", max_score_xy, max_score_a, cat_x = cat_x, cat_y = cat_y, cat_a = cat_a),
-        list("PSE", max_score_xy, max_score_a)
+      methods_funs_args = list(
+       list(max_score_xy, cat_x = cat_x, cat_y = cat_y),
+       max_score_xy,
+       list("CE", max_score_xy, max_score_a, cat_x = cat_x, cat_y = cat_y, cat_a = cat_a),
+       list("CE", max_score_xy, max_score_a),
+       list("PSE", max_score_xy, max_score_a, cat_x = cat_x, cat_y = cat_y, cat_a = cat_a),
+       list("PSE", max_score_xy, max_score_a)
       ),
       packages_vec = c("kequate", "mirt"),
       export_vec = c("from_b_to_d"),
@@ -118,6 +123,3 @@ for (pop_scen in seq_along(thetas)) {
     save(res, file = filename_err)
   }
 }
-time <- Sys.time() - start_time
-save(time, file = paste("data/irt/time irt R", r, ".RData", sep = ""))
-print(time)

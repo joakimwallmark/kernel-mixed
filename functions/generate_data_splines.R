@@ -52,10 +52,10 @@ generate_data_splines <- function(i, arg_list) {
   y <- transform_bin_to_poly(y, poly_indices$XY, "Y")
   ya <- transform_bin_to_poly(ya, poly_indices$A, "A")
 
-  colnames(x) <- paste(rep("X", ncol(x)), seq_along(x), sep = "")
-  colnames(xa) <- paste(rep("A", ncol(xa)), seq_along(xa), sep = "")
-  colnames(y) <- paste(rep("Y", ncol(y)), seq_along(y), sep = "")
-  colnames(ya) <- paste(rep("A", ncol(ya)), seq_along(ya), sep = "")
+  colnames(x) <- paste(rep("X", ncol(x)), seq_along(1:ncol(x)), sep = "")
+  colnames(xa) <- paste(rep("A", ncol(xa)), seq_along(1:ncol(xa)), sep = "")
+  colnames(y) <- paste(rep("Y", ncol(y)), seq_along(1:ncol(y)), sep = "")
+  colnames(ya) <- paste(rep("A", ncol(ya)), seq_along(1:ncol(ya)), sep = "")
 
   result <- list(X = x, XA = xa, Y = y, YA = ya)
   save(result, file = paste("data/spline datasets/splines i", i, " ", filename, sep = ""))

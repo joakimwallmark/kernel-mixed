@@ -24,7 +24,7 @@ ke_neat <- function(data, i, arg_list) {
   ke_eg_x <- kefreq(rowSums(x[, -a_items_x]), 0:max_score, rowSums(x[, a_items_x]), 0:max_score_a)
   ke_eg_y <- kefreq(rowSums(y[, -a_items_y]), 0:max_score, rowSums(y[, a_items_y]), 0:max_score_a)
 
-  lowbic <- select_ll_model(ke_eg_x, ke_eg_y, use_BIC = TRUE)
+  lowbic <- select_ll_model(ke_eg_x, ke_eg_y, use_bic = TRUE)
   glm_x <- lowbic[[1]]
   glm_y <- lowbic[[2]]
 

@@ -70,8 +70,10 @@ for (item_scen_a in seq_along(bin_items_a)) {
         cat_xy <- c(rep(4, no_poly), rep(2, no_bin))
         cat_a <- c(rep(4, no_poly_a), rep(2, no_bin_a))
         simres <- sim_parallel(
-          iter = r, data_gen_fun = generate_data_splines,
-          data_gen_fun_args = list(n,
+          iter = r, 
+          data_gen_fun = generate_data_splines,
+          data_gen_fun_args = list(
+            n,
             correl = cor_list[[1]],
             densities = list(
               X = x_list[[1]],
@@ -84,7 +86,7 @@ for (item_scen_a in seq_along(bin_items_a)) {
             filename = filename
           ),
           method_funs = list(irtke_eg, ke_eg, irtke_neat, ke_neat, irtke_neat, ke_neat),
-          method_funs_args = list(
+          methods_funs_args = list(
             list(max_score_xy, cat_x = cat_xy, cat_y = cat_xy),
             max_score_xy,
             list("CE", max_score_xy, max_score_a, cat_x = cat_xy, cat_y = cat_xy, cat_a = cat_a),
@@ -102,6 +104,3 @@ for (item_scen_a in seq_along(bin_items_a)) {
     }
   }
 }
-time <- Sys.time() - start_time
-save(time, file = paste("data/spline/time splines R", r, ".RData", sep = ""))
-print(time)

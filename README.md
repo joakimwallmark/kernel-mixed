@@ -1,4 +1,7 @@
 # kernel-mixed
+To ensure reproducible code, the project uses [renv](https://github.com/rstudio/renv). When the project folder is opened on your local machine in R-studio, the required packages with the correct versions will be automatically installed.
+
+# Instructions
 For simulations using IRT to generate test data, run the files 01_real_irt_parameters.R and 02_start_sim_irt.R
 
 For simulations using splines to generate test data, the equivalent files are 01_spline_cdfs.R and 02_start_sim_splines.R

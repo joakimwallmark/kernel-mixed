@@ -6,6 +6,8 @@ source("functions/irtke_neat.R")
 source("functions/irtke_eg.R")
 source("functions/ke_neat.R")
 source("functions/ke_eg.R")
+source("functions/irtose_eg.R")
+source("functions/irtose_neat.R")
 source("functions/irt_probs.R")
 options(scipen = 999)
 
@@ -56,7 +58,7 @@ theta_den <- list(
 diff_pop <- c(FALSE, TRUE)
 
 true_eq_names <- c("KEtrue", "EEtrue")
-method_names <- c("IRTKE", "KE", "IRTKECE", "KECE", "IRTKEPSE", "KEPSE")
+method_names <- c("IRTOSE", "IRTOSENEAT", "IRTKE", "KE", "IRTKECE", "KECE", "IRTKEPSE", "KEPSE")
 
 n <- 1500
 r <- 1000
@@ -105,8 +107,10 @@ for (pop_scen in seq_along(thetas)) {
          names = names, names_a = names_a,
          filename = filename
        ), 
-      method_funs = list(irtke_eg, ke_eg, irtke_neat, ke_neat, irtke_neat, ke_neat),
+      method_funs = list(irtose_eg, irtose_neat, irtke_eg, ke_eg, irtke_neat, ke_neat, irtke_neat, ke_neat),
       methods_funs_args = list(
+       list(max_score_xy, cat_x = cat_x, cat_y = cat_y),
+       list(max_score_xy, max_score_a, cat_x = cat_x, cat_y = cat_y, cat_a = cat_a),
        list(max_score_xy, cat_x = cat_x, cat_y = cat_y),
        max_score_xy,
        list("CE", max_score_xy, max_score_a, cat_x = cat_x, cat_y = cat_y, cat_a = cat_a),
@@ -115,7 +119,16 @@ for (pop_scen in seq_along(thetas)) {
        list("PSE", max_score_xy, max_score_a)
       ),
       packages_vec = c("kequate", "mirt"),
-      export_vec = c("from_b_to_d"),
+      # export_vec = c("from_b_to_d"),
+      export_vec = c(
+        "from_b_to_d",
+        "cmnom_kequate",
+        "probpl_kequate",
+        "polyprob_kequate",
+        "eqcpoly_kequate",
+        "adjgpcmmirt_kequate",
+        "irtinput_kequate"
+      ), 
       res_filename = filename_iter
     )
 

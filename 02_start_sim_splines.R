@@ -8,6 +8,8 @@ source("functions/ke_neat.R")
 source("functions/accuracy_indices.R")
 source("functions/generate_data_splines.R")
 source("functions/transform_bin_to_poly.R")
+source("functions/irtose_eg.R")
+source("functions/irtose_neat.R")
 source("functions/splines_true_w.R")
 
 options(scipen = 999)
@@ -26,7 +28,7 @@ diff_pop <- c(FALSE, TRUE) # for filenames
 w_x <- list(opt_w_x)
 w_y <- list(opt_w_y, opt_w_ey)
 w_a <- list(opt_w_a, opt_w_ea)
-method_names <- c("IRTKE", "KE", "IRTKECE", "KECE", "IRTKEPSE", "KEPSE")
+method_names <- c("IRTOSE", "IRTOSENEAT", "IRTKE", "KE", "IRTKECE", "KECE", "IRTKEPSE", "KEPSE")
 cor_list <- list(c(0.85, 0.85)) # correlations between XA and YA
 
 # loop through scenarios
@@ -85,8 +87,10 @@ for (item_scen_a in seq_along(bin_items_a)) {
             w_x = w_x[[1]], w_y = w_y[[test_scen]], w_ax = w_a[[1]], w_ay = w_a[[pop_scen]],
             filename = filename
           ),
-          method_funs = list(irtke_eg, ke_eg, irtke_neat, ke_neat, irtke_neat, ke_neat),
+          method_funs = list(irtose_eg, irtose_neat, irtke_eg, ke_eg, irtke_neat, ke_neat, irtke_neat, ke_neat),
           methods_funs_args = list(
+            list(max_score_xy, cat_x = cat_xy, cat_y = cat_xy),
+            list(max_score_xy, max_score_a, cat_x = cat_xy, cat_y = cat_xy, cat_a = cat_a),
             list(max_score_xy, cat_x = cat_xy, cat_y = cat_xy),
             max_score_xy,
             list("CE", max_score_xy, max_score_a, cat_x = cat_xy, cat_y = cat_xy, cat_a = cat_a),

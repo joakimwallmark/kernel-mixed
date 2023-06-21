@@ -183,9 +183,13 @@ ggarrange(s1, s2, s3, s4, s5, s6, s7, s8,
   nrow = 4, ncol = 2, common.legend = TRUE, legend = "bottom"
 )
 
-ggarrange(b1, b2, b5, b6, s1, s2, s5, s6,
+comb <- ggarrange(b1, b2, b7, b8, s1, s2, s7, s8,
   nrow = 4, ncol = 2, common.legend = TRUE, legend = "bottom",
   labels = c("a", "b", "c", "d", "e", "f", "g", "h")
+)
+comb
+ggsave(paste("plots/biasseesplines.eps", sep = ""),
+       plot = comb, width = 15, height = 14, units = "cm"
 )
 
 

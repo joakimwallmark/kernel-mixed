@@ -10,11 +10,11 @@ poly_items_a <- c(5)
 harder_y <- c(FALSE, TRUE) # for filenames
 diff_pop <- c(FALSE, TRUE) # for filenames
 
-method_names <- c("IRTKE EG", "LLKE EG", "IRTKE CE", "LLKE CE", "IRTKE PSE", "LLKE PSE")
+method_names <- c("IRTOSE", "IRTOSENEAT", "IRTKE", "KE", "IRTKECE", "KECE", "IRTKEPSE", "KEPSE")
 mat_rows <- length(harder_y) * length(diff_pop) * length(method_names)
 res_mat <- data.frame(matrix("", nrow = mat_rows, ncol = 9))
 res_mat[, 4:9] <- sapply(res_mat[, 4:9], as.numeric)
-rowi <- 1:6
+rowi <- 1:8
 # loop through scenarios
 for (item_scen_A in seq_along(bin_items_a)) {
   for (item_scen in seq_along(bin_items)) {
@@ -44,7 +44,7 @@ for (item_scen_A in seq_along(bin_items_a)) {
         res_mat[rowi, 8] <- res$spline$global$RMSE_global
         res_mat[rowi, 9] <- res$spline$global$RMSE_wglobal
 
-        rowi <- rowi + 6
+        rowi <- rowi + 8
       }
     }
   }
@@ -62,12 +62,12 @@ no_bin_poly <- c(50, 10, 25, 5)
 easier_y <- c(FALSE, TRUE)
 diff_pop <- c(FALSE, TRUE)
 
-method_names <- c("IRTKE EG", "LLKE EG", "IRTKE CE", "LLKE CE", "IRTKE PSE", "LLKE PSE")
+method_names <- c("IRTOSE", "IRTOSENEAT", "IRTKE", "KE", "IRTKECE", "KECE", "IRTKEPSE", "KEPSE")
 mat_rows <- length(easier_y) * length(diff_pop) * length(method_names)
 res_mat <- data.frame(matrix("", nrow = mat_rows, ncol = 9))
 res_mat[, 4:9] <- sapply(res_mat[, 4:9], as.numeric)
 res_mat_ee <- res_mat
-rowi <- 1:6
+rowi <- 1:8
 
 for (pop_scen in 1:length(diff_pop)) {
   for (test_scen in easier_y) {
@@ -109,7 +109,7 @@ for (pop_scen in 1:length(diff_pop)) {
     res_mat_ee[rowi, 8] <- res$EEtrue$global$RMSE_global
     res_mat_ee[rowi, 9] <- res$EEtrue$global$RMSE_wglobal
 
-    rowi <- rowi + 6
+    rowi <- rowi + 8
   }
 }
 

@@ -1,3 +1,4 @@
+source("functions/IRTOSE.R")
 # IRT kernel equating from X to Y
 # i is iteration index from simulations for errors
 # 2 items in argList: max_score, categories vector
